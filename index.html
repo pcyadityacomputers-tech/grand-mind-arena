@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Mind Arena</title>  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #080b14;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #202638;
+      background: #0d1220;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .tagline {
+      color: #9da7bd;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 45px 20px 30px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 8vw, 58px);
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #aeb7c9;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .games {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .game-card {
+      background: #111827;
+      border: 1px solid #252d40;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #64748b;
+    }
+
+    .game-icon {
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    .game-card h2 {
+      margin-bottom: 8px;
+    }
+
+    .game-card p {
+      color: #9da7bd;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 42px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 13px;
+      border: 0;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #080b14;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .coming {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 7px 12px;
+      border-radius: 20px;
+      background: #20283a;
+      color: #aeb7c9;
+      font-size: 12px;
+    }
+
+    .stats {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 0 20px 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      background: #0f1524;
+      border: 1px solid #20283a;
+      border-radius: 15px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+    }
+
+    .stat span {
+      color: #8f9bb2;
+      font-size: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      border-top: 1px solid #202638;
+      color: #737e95;
+      font-size: 13px;
+    }
+
+    @media (max-width: 500px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style></head><body>  <header>
+    <div class="logo">🎮 GRAND MIND ARENA</div>
+    <div class="tagline">Play. Think. Master.</div>
+  </header>  <main><section class="hero">
+  <h1>Your Gaming Arena</h1>
+  <p>
+    Challenge your mind with classic games built for fun,
+    strategy and skill.
+  </p>
+</section>
+
+<section class="games">
+
+  <div class="game-card">
+    <div class="game-icon">🎲</div>
+    <h2>Ludo</h2>
+    <p>
+      Roll the dice, move your pieces and race to victory.
+    </p>
+    <span class="coming">COMING SOON</span>
+  </div>
+
+  <div class="game-card">
+    <div class="game-icon">♟️</div>
+    <h2>Chess</h2>
+    <p>
+      Test your strategy and outthink your opponent.
+    </p>
+    <span class="coming">COMING SOON</span>
+  </div>
+
+  <div class="game-card">
+    <div class="game-icon">🔢</div>
+    <h2>Sudoku</h2>
+    <p>
+      Complete number puzzles from beginner to expert.
+    </p>
+    <span class="coming">COMING SOON</span>
+  </div>
+
+  <div class="game-card">
+    <div class="game-icon">🃏</div>
+    <h2>Memory Cards</h2>
+    <p>
+      Match the hidden cards and test your memory.
+    </p>
+    <span class="coming">COMING SOON</span>
+  </div>
+
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <strong>4</strong>
+    <span>Games Planned</span>
+  </div>
+
+  <div class="stat">
+    <strong>∞</strong>
+    <span>Challenges</span>
+  </div>
+
+  <div class="stat">
+    <strong>1</strong>
+    <span>Arena</span>
+  </div>
+</section>
+
+  </main>  <footer>
+    Grand Mind Arena © 2026
+  </footer></body>
+</html>
