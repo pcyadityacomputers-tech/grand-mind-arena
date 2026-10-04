@@ -154,4 +154,306 @@ button{
   box-shadow:0 3px 6px rgba(0,0,0,.5);
 }
 
-.red
+.red-piece{background:#d32f2f;}
+.green-piece{background:#2e7d32;}
+.yellow-piece{background:#f9a825;}
+.blue-piece{background:#1565c0;}
+
+/* center */
+
+.center{
+  grid-column:7 / 10;
+  grid-row:7 / 10;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#111;
+  font-weight:bold;
+  font-size:12px;
+}
+
+.track{
+  background:#fafafa;
+}
+
+.red-track{background:#ffcdd2;}
+.green-track{background:#c8e6c9;}
+.yellow-track{background:#fff9c4;}
+.blue-track{background:#bbdefb;}
+
+.controls{
+  margin-top:15px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+#restart{
+  background:#444;
+  color:white;
+}
+
+.players{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin-top:15px;
+}
+
+.player{
+  padding:8px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.p-red{background:#c62828;}
+.p-green{background:#2e7d32;}
+.p-yellow{background:#f9a825;color:#111;}
+.p-blue{background:#1565c0;}
+
+@media(max-width:420px){
+  h1{font-size:23px;}
+  .home{padding:10px;gap:5px;}
+  .piece{border-width:2px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<h1>🎲 GRAND MIND ARENA</h1>
+<div class="subtitle">Ludo • Player vs AI</div>
+
+<div class="info">
+  <div id="turn">Your Turn</div>
+  <div id="dice">–</div>
+</div>
+
+<div id="message">Roll the dice to start.</div>
+
+<div class="board">
+
+  <!-- RED HOME -->
+  <div class="home red-home">
+    <div class="base"><div class="piece red-piece" id="red0"></div></div>
+    <div class="base"><div class="piece red-piece" id="red1"></div></div>
+    <div class="base"><div class="piece red-piece" id="red2"></div></div>
+    <div class="base"><div class="piece red-piece" id="red3"></div></div>
+  </div>
+
+  <!-- GREEN HOME -->
+  <div class="home green-home">
+    <div class="base"><div class="piece green-piece"></div></div>
+    <div class="base"><div class="piece green-piece"></div></div>
+    <div class="base"><div class="piece green-piece"></div></div>
+    <div class="base"><div class="piece green-piece"></div></div>
+  </div>
+
+  <!-- YELLOW HOME -->
+  <div class="home yellow-home">
+    <div class="base"><div class="piece yellow-piece"></div></div>
+    <div class="base"><div class="piece yellow-piece"></div></div>
+    <div class="base"><div class="piece yellow-piece"></div></div>
+    <div class="base"><div class="piece yellow-piece"></div></div>
+  </div>
+
+  <!-- BLUE HOME -->
+  <div class="home blue-home">
+    <div class="base"><div class="piece blue-piece"></div></div>
+    <div class="base"><div class="piece blue-piece"></div></div>
+    <div class="base"><div class="piece blue-piece"></div></div>
+    <div class="base"><div class="piece blue-piece"></div></div>
+  </div>
+
+  <!-- SIMPLE TRACK -->
+  <div class="track red-track" style="grid-column:7;grid-row:1"></div>
+  <div class="track red-track" style="grid-column:7;grid-row:2"></div>
+  <div class="track red-track" style="grid-column:7;grid-row:3"></div>
+  <div class="track red-track" style="grid-column:7;grid-row:4"></div>
+  <div class="track red-track" style="grid-column:7;grid-row:5"></div>
+
+  <div class="track green-track" style="grid-column:8;grid-row:1"></div>
+  <div class="track green-track" style="grid-column:9;grid-row:1"></div>
+  <div class="track green-track" style="grid-column:10;grid-row:7"></div>
+  <div class="track green-track" style="grid-column:11;grid-row:7"></div>
+  <div class="track green-track" style="grid-column:12;grid-row:7"></div>
+
+  <div class="track yellow-track" style="grid-column:7;grid-row:11"></div>
+  <div class="track yellow-track" style="grid-column:7;grid-row:12"></div>
+  <div class="track yellow-track" style="grid-column:7;grid-row:13"></div>
+  <div class="track yellow-track" style="grid-column:7;grid-row:14"></div>
+  <div class="track yellow-track" style="grid-column:7;grid-row:15"></div>
+
+  <div class="track blue-track" style="grid-column:8;grid-row:15"></div>
+  <div class="track blue-track" style="grid-column:9;grid-row:15"></div>
+  <div class="track blue-track" style="grid-column:10;grid-row:9"></div>
+  <div class="track blue-track" style="grid-column:11;grid-row:9"></div>
+  <div class="track blue-track" style="grid-column:12;grid-row:9"></div>
+
+  <div class="center">FINISH</div>
+
+</div>
+
+<div class="controls">
+  <button id="roll">🎲 ROLL DICE</button>
+  <button id="restart">↻ RESTART</button>
+</div>
+
+<div class="players">
+  <div class="player p-red">🔴 YOU</div>
+  <div class="player p-green">🟢 AI</div>
+  <div class="player p-yellow">🟡 AI</div>
+  <div class="player p-blue">🔵 AI</div>
+</div>
+
+</div>
+
+<script>
+
+let dice = 0;
+let gameOver = false;
+let redPieces = [0,0,0,0];
+
+const diceBox = document.getElementById("dice");
+const rollButton = document.getElementById("roll");
+const restartButton = document.getElementById("restart");
+const turnText = document.getElementById("turn");
+const message = document.getElementById("message");
+
+rollButton.addEventListener("click", rollDice);
+
+restartButton.addEventListener("click", restartGame);
+
+function rollDice(){
+
+  if(gameOver) return;
+
+  dice = Math.floor(Math.random() * 6) + 1;
+
+  diceBox.textContent = dice;
+
+  message.textContent = "You rolled " + dice + ".";
+
+  if(dice === 6){
+    message.textContent += " You can roll again after moving.";
+  }
+
+  movePlayer();
+
+}
+
+function movePlayer(){
+
+  // Find first piece that can move
+  let index = redPieces.findIndex(p => p < 57);
+
+  if(index === -1){
+    message.textContent = "All your pieces reached the finish!";
+    gameOver = true;
+    return;
+  }
+
+  // A piece starts when you roll 6
+  if(redPieces[index] === 0 && dice !== 6){
+
+    message.textContent = "You need a 6 to bring a piece out.";
+
+    if(dice !== 6){
+      setTimeout(aiTurn,800);
+    }
+
+    return;
+  }
+
+  redPieces[index] += dice;
+
+  if(redPieces[index] > 57){
+    redPieces[index] = 57;
+  }
+
+  updatePiece(index);
+
+  if(redPieces.every(p => p >= 57)){
+    message.textContent = "🏆 YOU WIN!";
+    turnText.textContent = "Victory!";
+    gameOver = true;
+    return;
+  }
+
+  if(dice === 6){
+    message.textContent = "Great! You got a 6 — roll again.";
+    return;
+  }
+
+  setTimeout(aiTurn,900);
+}
+
+function updatePiece(index){
+
+  const piece = document.getElementById("red" + index);
+
+  if(redPieces[index] >= 57){
+    piece.style.transform = "scale(1.25)";
+    piece.style.background = "#fff";
+    piece.style.border = "4px solid #d32f2f";
+  }else{
+    piece.style.transform =
+      "translate(" + (redPieces[index] * 2) + "px, -" +
+      (redPieces[index] * 2) + "px)";
+  }
+}
+
+function aiTurn(){
+
+  if(gameOver) return;
+
+  turnText.textContent = "AI Turn";
+  message.textContent = "AI is rolling...";
+
+  setTimeout(() => {
+
+    const aiDice = Math.floor(Math.random() * 6) + 1;
+
+    message.textContent = "AI rolled " + aiDice + ".";
+
+    setTimeout(() => {
+
+      turnText.textContent = "Your Turn";
+      message.textContent = "Your turn — roll the dice.";
+
+    },700);
+
+  },700);
+}
+
+function restartGame(){
+
+  dice = 0;
+  gameOver = false;
+  redPieces = [0,0,0,0];
+
+  diceBox.textContent = "–";
+  turnText.textContent = "Your Turn";
+  message.textContent = "Roll the dice to start.";
+
+  for(let i=0;i<4;i++){
+
+    const piece = document.getElementById("red"+i);
+
+    piece.style.transform = "none";
+    piece.style.background = "";
+    piece.style.border = "";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
