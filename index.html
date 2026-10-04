@@ -1,232 +1,349 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grand Mind Arena</title>  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grand Mind Arena - Ludo</title>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #080b14;
-      color: white;
-      min-height: 100vh;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #202638;
-      background: #0d1220;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #080b14;
+  color: white;
+  min-height: 100vh;
+}
 
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
+header {
+  padding: 18px;
+  text-align: center;
+  background: #0e1422;
+  border-bottom: 1px solid #252d40;
+}
 
-    .tagline {
-      color: #9da7bd;
-      margin-top: 6px;
-      font-size: 14px;
-    }
+header h1 {
+  margin: 0;
+  font-size: 25px;
+}
 
-    .hero {
-      text-align: center;
-      padding: 45px 20px 30px;
-    }
+header p {
+  margin: 6px 0 0;
+  color: #9da7bd;
+  font-size: 13px;
+}
 
-    .hero h1 {
-      font-size: clamp(32px, 8vw, 58px);
-      margin-bottom: 12px;
-    }
+.game-wrap {
+  width: min(700px, 100%);
+  margin: auto;
+  padding: 15px;
+}
 
-    .hero p {
-      color: #aeb7c9;
-      max-width: 600px;
-      margin: auto;
-      line-height: 1.6;
-    }
+.status {
+  background: #111827;
+  border: 1px solid #273149;
+  border-radius: 15px;
+  padding: 14px;
+  text-align: center;
+  margin-bottom: 15px;
+}
 
-    .games {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
+#turnText {
+  font-size: 18px;
+  font-weight: bold;
+}
 
-    .game-card {
-      background: #111827;
-      border: 1px solid #252d40;
-      border-radius: 20px;
-      padding: 25px;
-      text-align: center;
-      transition: transform 0.2s, border-color 0.2s;
-    }
+#message {
+  margin-top: 7px;
+  color: #aeb7c9;
+  font-size: 13px;
+  min-height: 18px;
+}
 
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: #64748b;
-    }
+.board {
+  width: min(92vw, 600px);
+  aspect-ratio: 1;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  background: #dfe4ea;
+  border: 5px solid #202638;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
-    .game-icon {
-      font-size: 55px;
-      margin-bottom: 15px;
-    }
+.cell {
+  position: relative;
+  border: 1px solid #c5cad2;
+  background: #f5f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .game-card h2 {
-      margin-bottom: 8px;
-    }
+/* Player yards */
 
-    .game-card p {
-      color: #9da7bd;
-      font-size: 14px;
-      line-height: 1.5;
-      min-height: 42px;
-    }
+.yard-red {
+  grid-column: 1 / 7;
+  grid-row: 1 / 7;
+  background: #ef4444;
+}
 
-    button {
-      width: 100%;
-      margin-top: 18px;
-      padding: 13px;
-      border: 0;
-      border-radius: 12px;
-      background: #ffffff;
-      color: #080b14;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-    }
+.yard-green {
+  grid-column: 10 / 16;
+  grid-row: 1 / 7;
+  background: #22c55e;
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
+.yard-yellow {
+  grid-column: 1 / 7;
+  grid-row: 10 / 16;
+  background: #facc15;
+}
 
-    .coming {
-      display: inline-block;
-      margin-top: 18px;
-      padding: 7px 12px;
-      border-radius: 20px;
-      background: #20283a;
-      color: #aeb7c9;
-      font-size: 12px;
-    }
+.yard-blue {
+  grid-column: 10 / 16;
+  grid-row: 10 / 16;
+  background: #3b82f6;
+}
 
-    .stats {
-      max-width: 1000px;
-      margin: 25px auto;
-      padding: 0 20px 40px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
+.yard-inner {
+  width: 72%;
+  height: 72%;
+  background: white;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12%;
+  padding: 12%;
+}
 
-    .stat {
-      background: #0f1524;
-      border: 1px solid #20283a;
-      border-radius: 15px;
-      padding: 18px;
-      text-align: center;
-    }
+.base-slot {
+  border-radius: 50%;
+  background: #e5e7eb;
+  border: 2px solid #b8bec8;
+}
 
-    .stat strong {
-      display: block;
-      font-size: 25px;
-    }
+/* Home */
 
-    .stat span {
-      color: #8f9bb2;
-      font-size: 12px;
-    }
+.home {
+  grid-column: 7 / 10;
+  grid-row: 7 / 10;
+  background: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      border-top: 1px solid #202638;
-      color: #737e95;
-      font-size: 13px;
-    }
+.home div:nth-child(1) {
+  background: #ef4444;
+}
 
-    @media (max-width: 500px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style></head><body>  <header>
-    <div class="logo">🎮 GRAND MIND ARENA</div>
-    <div class="tagline">Play. Think. Master.</div>
-  </header>  <main><section class="hero">
-  <h1>Your Gaming Arena</h1>
-  <p>
-    Challenge your mind with classic games built for fun,
-    strategy and skill.
-  </p>
-</section>
+.home div:nth-child(2) {
+  background: #22c55e;
+}
 
-<section class="games">
+.home div:nth-child(3) {
+  background: #facc15;
+}
 
-  <div class="game-card">
-    <div class="game-icon">🎲</div>
-    <h2>Ludo</h2>
-    <p>
-      Roll the dice, move your pieces and race to victory.
-    </p>
-    <span class="coming">COMING SOON</span>
+.home div:nth-child(4) {
+  background: #3b82f6;
+}
+
+/* Track */
+
+.track {
+  background: white;
+}
+
+.safe {
+  background: #e5e7eb;
+}
+
+.red-track {
+  background: #fecaca;
+}
+
+.green-track {
+  background: #bbf7d0;
+}
+
+.yellow-track {
+  background: #fef08a;
+}
+
+.blue-track {
+  background: #bfdbfe;
+}
+
+/* Pieces */
+
+.piece {
+  width: 68%;
+  height: 68%;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 5px rgba(0,0,0,.35);
+  cursor: pointer;
+  z-index: 5;
+}
+
+.piece.red {
+  background: #dc2626;
+}
+
+.piece.green {
+  background: #16a34a;
+}
+
+.piece.yellow {
+  background: #eab308;
+}
+
+.piece.blue {
+  background: #2563eb;
+}
+
+.piece.movable {
+  outline: 4px solid white;
+  animation: pulse .8s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* Controls */
+
+.controls {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#diceBtn {
+  background: white;
+  color: #080b14;
+}
+
+#restartBtn {
+  background: #20283a;
+  color: white;
+}
+
+.dice {
+  margin: 15px auto 0;
+  width: 65px;
+  height: 65px;
+  border-radius: 15px;
+  background: white;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.players {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.player {
+  background: #111827;
+  border: 1px solid #273149;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.player.active {
+  outline: 2px solid white;
+}
+
+.dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+
+.red-dot { background: #ef4444; }
+.green-dot { background: #22c55e; }
+.yellow-dot { background: #facc15; }
+.blue-dot { background: #3b82f6; }
+
+@media (max-width: 450px) {
+  .game-wrap {
+    padding: 8px;
+  }
+
+  .board {
+    width: 96vw;
+    border-width: 3px;
+  }
+
+  .yard-inner {
+    gap: 6%;
+  }
+
+  .players {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎮 GRAND MIND ARENA</h1>
+  <p>Classic Ludo • Human vs AI</p>
+</header>
+
+<div class="game-wrap">
+
+  <div class="status">
+    <div id="turnText">Red's turn</div>
+    <div id="message">Roll the dice to begin.</div>
+    <div class="dice" id="dice">⚀</div>
   </div>
 
-  <div class="game-card">
-    <div class="game-icon">♟️</div>
-    <h2>Chess</h2>
-    <p>
-      Test your strategy and outthink your opponent.
-    </p>
-    <span class="coming">COMING SOON</span>
-  </div>
+  <div class="board" id="board">
 
-  <div class="game-card">
-    <div class="game-icon">🔢</div>
-    <h2>Sudoku</h2>
-    <p>
-      Complete number puzzles from beginner to expert.
-    </p>
-    <span class="coming">COMING SOON</span>
-  </div>
+    <!-- RED YARD -->
+    <div class="yard-red">
+      <div class="yard-inner">
+        <div class="base-slot" id="red-base-0"></div>
+        <div class="base-slot" id="red-base-1"></div>
+        <div class="base-slot" id="red-base-2"></div>
+        <div class="base-slot" id="red-base-3"></div>
+      </div>
+    </div>
 
-  <div class="game-card">
-    <div class="game-icon">🃏</div>
-    <h2>Memory Cards</h2>
-    <p>
-      Match the hidden cards and test your memory.
-    </p>
-    <span class="coming">COMING SOON</span>
-  </div>
-
-</section>
-
-<section class="stats">
-  <div class="stat">
-    <strong>4</strong>
-    <span>Games Planned</span>
-  </div>
-
-  <div class="stat">
-    <strong>∞</strong>
-    <span>Challenges</span>
-  </div>
-
-  <div class="stat">
-    <strong>1</strong>
-    <span>Arena</span>
-  </div>
-</section>
-
-  </main>  <footer>
-    Grand Mind Arena © 2026
-  </footer></body>
-</html>
+    <!-- GREEN YARD -->
+    <div class="yard-green">
+      <div class="yard
